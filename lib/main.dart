@@ -37,10 +37,9 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // valor
-            GetX<ValueController>(
-              init: valueController,
-              builder: (ctrl) {
-                return Text('Valor definido: ${ctrl.definedValue}');
+            Obx(
+              () {
+                return Text('Valor definido: ${valueController.definedValue}');
               },
             ),
             // campo
@@ -49,17 +48,15 @@ class HomePage extends StatelessWidget {
               child: TextField(controller: textController),
             ),
             //botao
-            GetX<ValueController>(
-                init: valueController,
-                builder: (ctrl) {
-                  return ctrl.isLoading.value
-                      ? const CircularProgressIndicator()
-                      : ElevatedButton(
-                          onPressed: () {
-                            valueController.setValue(textController.text);
-                          },
-                          child: const Text('Confirmar'));
-                }),
+            Obx(() {
+              return valueController.isLoading.value
+                  ? const CircularProgressIndicator()
+                  : ElevatedButton(
+                      onPressed: () {
+                        valueController.setValue(textController.text);
+                      },
+                      child: const Text('Confirmar'));
+            }),
           ],
         ),
       ),
